@@ -13,6 +13,7 @@ class DrawingPlots:
         plt.rcParams.update({'figure.max_open_warning': 0})
         all_models = set()
         self.data_frame = pd.read_json(self.file_name)
+        print('plotting in progress')
         for model in self.data_frame.iterrows():
             file_name = model[1][0]
             if file_name not in all_models:
@@ -21,7 +22,6 @@ class DrawingPlots:
                 data_model.plot(kind='bar', figsize=(12, 8), title=file_name)
                 file_name = file_name.replace('/', '')
                 path = f'plots/{file_name}.png'
-                print('plot is saved')
                 plt.savefig(path)
                 result_path.append(os.path.abspath(path))
                 plt.close()
