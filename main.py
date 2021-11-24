@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
 
 class DrawingPlots:
@@ -7,24 +8,21 @@ class DrawingPlots:
     file_name = 'deviation.json'
     data_frame = None
 
-    def __init__(self, file_name=None):
-        if file_name:
-            self.file_name = file_name
-
     def draw_plots(self):
-        plots = []
+        result_path = []
+        plt.rcParams.update({'figure.max_open_warning': 0})
+        all_models = set()
         self.data_frame = pd.read_json(self.file_name)
-        plt.bar(self.data_frame["name"], self.data_frame["rb_corners"], color='blue')
-        plt.bar(self.data_frame["name"], self.data_frame["gt_corners"], color='red')
-        first_plot = 'plots/first.png'
-        plt.savefig('plots/first.png')
-        plots.append(first_plot)
+        for model in self.data_frame.iterrows():
+            file_name = model[1][0]
+            if file_name not in all_models:
+                all_models.add(file_name)
+                data_model = self.data_frame[self.data_frame['name'] == file_name]
+                data_model.plot(kind='bar', figsize=(12, 8), title=file_name)
+                file_name = file_name.replace('/', '')
+                path = f'plots/{file_name}.png'
+                plt.savefig(path)
+                result_path.append(os.path.abspath(path))
+                plt.close()
 
-        return plots
-
-
-
-
-
-
-
+        return result_path
