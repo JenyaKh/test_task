@@ -21,6 +21,7 @@ class DrawingPlots:
                 data_model.plot(kind='bar', figsize=(12, 8), title=file_name)
                 file_name = file_name.replace('/', '')
                 path = f'plots/{file_name}.png'
+                print('plot is saved')
                 plt.savefig(path)
                 result_path.append(os.path.abspath(path))
                 plt.close()
