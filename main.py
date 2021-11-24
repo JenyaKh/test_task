@@ -9,11 +9,9 @@ class DrawingPlots:
     data_frame = None
 
     def draw_plots(self):
-        result_path = []
         plt.rcParams.update({'figure.max_open_warning': 0})
         all_models = set()
         self.data_frame = pd.read_json(self.file_name)
-        print('plotting in progress')
         for model in self.data_frame.iterrows():
             file_name = model[1][0]
             if file_name not in all_models:
@@ -23,7 +21,7 @@ class DrawingPlots:
                 file_name = file_name.replace('/', '')
                 path = f'plots/{file_name}.png'
                 plt.savefig(path)
-                result_path.append(os.path.abspath(path))
                 plt.close()
+        result_files = os.listdir('plots')
 
-        return result_path
+        return result_files
